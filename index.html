@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <!-- REACT LIBRARY -->
+    <script src="https://unpkg.com/react@15.5.4/dist/react.js"></script>
+    <!-- REACT DOM LIBRARY -->
+    <script src="https://unpkg.com/react-dom@15.5.4/dist/react-dom.js"></script>
+    <!-- BABEL LIBRARY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app">React has not rendered yet..</div>
+
+    <script type="text/babel">
+
+    class Calculator extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                bill: 0,
+                service: "0",
+                people: 0,
+                total: 0
+            }
+            this.handleBillChange = this.handleBillChange.bind(this);
+            this.handlePeopleChange = this.handlePeopleChange.bind(this);
+            this.handleServiceChange = this.handleServiceChange.bind(this);
+            this.calculate = this.calculate.bind(this);
+        }
+        handleBillChange(event) {
+            this.setState({
+                bill: event.target.value
+            })
+        }
+        handlePeopleChange(event) {
+            this.setState({
+                people: event.target.value
+            })
+        }
+        handleServiceChange(event) {
+            this.setState({
+                service: event.target.value
+            })
+        }
+        calculate(event) {
+            var t = 0;
+            if (this.state.service === "1") {
+                t = this.state.bill * 15 / 100 / this.state.people
+            } else if (this.state.service === "2") {
+                t = this.state.bill * 10 / 100 / this.state.people
+            } else if (this.state.service === "3") {
+                t = this.state.bill * 5 / 100 / this.state.people
+            };
+            this.setState({
+                total: t.toFixed(2)
+            });
+            event.preventDefault();
+        }
+        render() {
+            var calculatorStyle = {
+                width: 400,
+                height: 600,
+                margin: '0 auto',
+                textAlign: 'center',
+                borderRadius: 20,
+                backgroundColor: 'white',
+                WebkitFilter: "drop-shadow(0px 0px 5px #555)",
+                filter: "drop-shadow(0px 0px 5px #555)"
+            }
+            var inputStyle = {
+                padding: 10,
+                margin: '15px 5px',
+                width: 200
+            }
+            var headlineStyle = {
+                backgroundColor: 'rgb(126, 73, 73)',
+                color: 'white',
+                margin: '0 0 40px',
+                padding: 10,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20
+            }
+            var submitStyle = {
+                padding: 10,
+                margin: 15,
+                width: 250,
+                backgroundColor: 'rgb(126, 73, 73)',
+                color: 'white',
+                border: 'none',
+                fontSize: 20
+            }
+            return (
+                <div style={calculatorStyle}>
+                    <h1 style={headlineStyle}>TIP CALCULATOR</h1>    
+                    <form onSubmit={this.calculate}>
+                        <label>How much was your bill?</label>
+                        <br/>
+                        <span>$</span><input style={inputStyle} type="number" placeholder="Bill Amount" onChange={this.handleBillChange}/>
+                        <br/>
+                        <label>How was your service?</label>
+                        <br/>
+                        <select style={inputStyle} defaultValue={'default'} onChange={this.handleServiceChange}>
+                            <option disabled value="default">-- Choose an Option --</option>
+                            <option value="1">Very good 15%</option>
+                            <option value="2">It was OK 10%</option>
+                            <option value="3">Bad 5%</option>
+                        </select>
+                        <br/>
+                        <label>How many people are sharing the bill?</label>
+                        <br/>
+                        <input style={inputStyle} type="number" placeholder="Number of" onChange={this.handlePeopleChange}/><span>people</span>
+                        <br/>
+                        <input style={submitStyle} type="submit" value="Calculate!"/>
+                    </form>
+                    <h2>Tip amount: ${this.state.total} each</h2>
+                </div>
+            )
+        }
+    }
+    
+    ReactDOM.render(
+        <Calculator/>,
+        document.getElementById('app')
+    )
+    </script>
+</body>
+</html>
